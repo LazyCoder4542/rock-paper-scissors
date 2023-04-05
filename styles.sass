@@ -1,0 +1,202 @@
+$scissors-grad: hsl(39, 89%, 49%), hsl(40, 84%, 53%)
+$paper-grad: hsl(230, 89%, 62%), hsl(230, 89%, 65%)
+$rock-grad: hsl(349, 71%, 52%), hsl(349, 70%, 56%)
+$lizard-grad: hsl(261, 73%, 60%) to hsl(261, 72%, 63%)
+$cyan: hsl(189, 59%, 53%) to hsl(189, 58%, 57%)
+$dark: hsl(229, 25%, 31%)
+$score: hsl(229, 64%, 46%)
+$clr-header: hsl(217, 16%, 45%)
+$radial-grad: hsl(214, 47%, 23%), hsl(237, 49%, 15%)
+
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+    &::selection
+        all: inherit
+span:has(svg)
+    display: inline-flex
+    justify-content: center
+.weapon
+    width: 100px
+    height: 100px
+    display: inline-flex
+    justify-self: center
+    position: relative
+    border-radius: 999px
+    span
+        border-radius: inherit
+        background: white
+        width: 100%
+        justify-content: center
+        align-items: center 
+        display: flex
+        z-index: 2
+        svg path
+            fill: $dark
+    &::after
+        z-index: -1
+        position: absolute
+        width: 100%
+        height: 100%
+        transform: scale(1.3)
+        content: ""
+        aspect-ratio: 1/1
+        display: block
+        border-radius: 999px
+        top: 0
+        right: 0
+body
+    padding-block: 2rem
+    display: flex
+    justify-content: center
+    min-height: 100vh
+    font-family: Barlow Semi Condensed, agency fb
+    background: radial-gradient($radial-grad)
+    color: #ffffff
+
+#rules_btn
+    position: absolute
+    bottom: 0
+    right: 0
+    transform-origin: bottom right
+    transform: translate(-1em, -1em)
+    cursor: pointer
+    span
+        padding: .5rem 1rem
+        border: 1px solid #fff
+        border-radius: .5rem
+#rules
+    &.isopen
+        visibility: visible
+        opacity: 1
+    transition: opacity .25s ease-in
+    opacity: 0
+    position: absolute
+    background-color: #fff
+    color: $dark
+    z-index: 999
+    height: 80vh
+    top: 50vh
+    transform: translateY(-50%)
+    border-radius: 1em
+    visibility: hidden
+    box-shadow: 2px 2px 10px $dark
+    &>div
+        padding: 2rem
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        flex-wrap: wrap
+        row-gap: 10vh
+        span:nth-of-type(1)
+            cursor: pointer
+        span:nth-of-type(2)
+            width: 100%
+
+main
+    width: 55%
+    #container
+        display: flex
+        flex-direction: column
+        header
+            border-radius: 1rem
+            align-items: center
+            border: 2px solid $clr-header
+            padding: 1rem
+            display: flex
+            justify-content: space-between
+            flex-wrap: nowrap
+            width: 100%
+            h2
+                font-size: 1.75rem
+                width: min-content
+                line-height: 1.5rem
+            div
+                padding: .5rem 2rem
+                display: flex
+                flex-direction: column
+                align-items: center
+                background-color: #fff
+                border-radius: .5rem
+                span
+                    letter-spacing: 1px
+                span:nth-child(1)
+                    color: $score
+                    font-size: .75rem
+                span:nth-child(2)
+                    color: $dark
+                    font-weight: 700
+                    font-size: 2rem
+        .board
+            transition-timing-function: ease-in-out
+            padding-block: 3rem
+            &>div:nth-child(1)
+                visibility: hidden
+                height: 0
+                &.shown
+                    visibility: visible
+                    height: auto
+                &>div
+                    width: 80%
+                    z-index: 1
+                    background-image: url("./images/bg-triangle.svg")
+                    background-repeat: no-repeat
+                    background-position: center 90%
+                    background-size: 50%
+                    @for $i from 1 to 4
+                        .weapon:nth-of-type(#{$i})
+                            @if $i == 1
+                                &::after
+                                    background-image: radial-gradient($paper-grad)
+                            @if $i == 2
+                                &::after
+                                    background-image: radial-gradient($scissors-grad)
+                            @if $i == 3
+                                grid-row: 2/3
+                                grid-column: 1/3
+                                &::after
+                                    background-image: radial-gradient($rock-grad)
+            &>div:nth-child(2)
+                visibility: hidden
+                height: 0
+                &.shown
+                    visibility: visible
+                    height: auto
+                flex-direction: column
+                row-gap: 4rem
+                &>div:nth-child(1)
+                    display: inline-flex
+                    justify-content: space-around
+                &>div:nth-child(2)
+                    div
+                        &.paper
+                            &::after
+                                background-image: radial-gradient($paper-grad)
+                        &.scissors
+                            &::after
+                                background-image: radial-gradient($scissors-grad)
+                        &.rock
+                            &::after
+                                background-image: radial-gradient($rock-grad)
+                    &>div:nth-child(2)
+                        background-color: $dark
+                &>div:nth-child(3)
+                    display: inline-flex
+                    transform: translateX(-50%)
+                    position: absolute
+                    left: 50%
+                    top: 50%
+                    span
+                        font-size: 2rem
+                        font-weight: 600
+                        padding: 1rem
+            &>div
+                display: flex
+                justify-content: center
+                &>div
+                    display: grid
+                    row-gap: 5rem
+                    grid-template-columns: repeat(2, 1fr)
+                    .weapon
+                        z-index: 1
